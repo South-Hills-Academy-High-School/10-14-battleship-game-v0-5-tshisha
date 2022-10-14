@@ -7,16 +7,20 @@ function makeboatInvisible (boatArray: Sprite[]) {
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    cursor.setFlag(SpriteFlag.AutoDestroy, false)
-    mySprite = 0
+    if (currentBoat == 2) {
+        cursor.setFlag(SpriteFlag.AutoDestroy, false)
+        currentBoat = 0
+    } else {
+        currentBoat = 1
+    }
 })
 function moveBoat (boatArray: any[]) {
     let list: string[] = []
     makeboatVisible(boatArray)
-    if (grid.spriteRow(cursor) == 6 && list[currentBoat] == "up") {
+    if (grid.spriteRow(cursor) == 0 - boatArray.length && list[currentBoat] == "up") {
         grid.move(cursor, 0, -1)
     }
-    if (grid.spriteCol(cursor) == 9 && list[currentBoat] == "up") {
+    if (grid.spriteCol(cursor) == 11 - boatArray.length && list[currentBoat] == "up") {
         grid.move(cursor, -1, 0)
     }
     cursor.setFlag(SpriteFlag.Invisible, true)
@@ -37,20 +41,18 @@ function makeboatVisible (boatArray: Sprite[]) {
 }
 function turnBoat (boatNum: number) {
     if (boatRotateArray[boatNum] == "up") {
-        boatSpriteArray[boatNum] = "sideway"
+        boatRotateArray[boatNum] = "sideway"
     } else {
-        boatSpriteArray[boatNum] = "up"
+        boatRotateArray[boatNum] = "up"
     }
 }
 let iterator = 0
-let mySprite = 0
 let cursor: Sprite = null
-let boatSpriteArray: string[] = []
 let boatRotateArray: string[] = []
 let currentBoat = 0
 currentBoat = 0
 boatRotateArray = ["up", "up", "up"]
-boatSpriteArray = [[sprites.create(img`
+let boatSpriteArray = [[sprites.create(img`
     . . . . . b b b b b b . . . . . 
     . . . b b 9 9 9 9 9 9 b b . . . 
     . . b b 9 9 9 9 9 9 9 9 b b . . 
